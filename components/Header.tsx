@@ -14,6 +14,30 @@ const Header = () => {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const { state } = useApp();
 
+  const [cartItems, setCartItems] = useState<any[]>([]);
+
+  // Load cart items from localStorage
+  useEffect(() => {
+    const loadCart = () => {
+      const items = JSON.parse(localStorage.getItem('cart') || '[]');
+      setCartItems(items);
+    };
+
+    // Initial load
+    loadCart();
+
+    // Listen for storage events (from other tabs/windows)
+    window.addEventListener('storage', loadCart);
+
+    // Listen for custom cart update events (same page)
+    window.addEventListener('cartUpdated', loadCart);
+
+    return () => {
+      window.removeEventListener('storage', loadCart);
+      window.removeEventListener('cartUpdated', loadCart);
+    };
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -46,17 +70,16 @@ const Header = () => {
 
             {/* Actions */}
             <div className="flex items-center space-x-4">
-              <button
-                onClick={() => setIsCartOpen(true)}
+              <Link href="/cart"
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
               >
                 <ShoppingCart size={20} />
-                {cartItemsCount > 0 && (
+                {cartItems.length > 0 && (
                   <span className="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
-                    {cartItemsCount}
+                    {cartItems.length}
                   </span>
                 )}
-              </button>
+              </Link>
 
               <button
                 onClick={() => setIsAuthOpen(true)}

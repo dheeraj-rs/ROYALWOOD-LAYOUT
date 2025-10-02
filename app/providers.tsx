@@ -33,7 +33,7 @@ interface AppState {
   isAuthenticated: boolean;
 }
 
-type AppAction = 
+type AppAction =
   | { type: 'ADD_TO_CART'; payload: Product }
   | { type: 'REMOVE_FROM_CART'; payload: string }
   | { type: 'UPDATE_QUANTITY'; payload: { id: string; quantity: number } }
@@ -65,13 +65,13 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
         ...state,
         cart: [...state.cart, { ...action.payload, quantity: 1 }],
       };
-    
+
     case 'REMOVE_FROM_CART':
       return {
         ...state,
         cart: state.cart.filter(item => item.id !== action.payload),
       };
-    
+
     case 'UPDATE_QUANTITY':
       return {
         ...state,
@@ -81,24 +81,24 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
             : item
         ),
       };
-    
+
     case 'CLEAR_CART':
       return { ...state, cart: [] };
-    
+
     case 'LOGIN':
       return {
         ...state,
         user: action.payload,
         isAuthenticated: true,
       };
-    
+
     case 'LOGOUT':
       return {
         ...state,
         user: null,
         isAuthenticated: false,
       };
-    
+
     default:
       return state;
   }
@@ -111,7 +111,7 @@ const AppContext = createContext<{
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
-  
+
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       {children}

@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { products } from '@/lib/products';
 import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 
 export default function ProductsPage() {
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -29,7 +30,7 @@ export default function ProductsPage() {
   const woodTypeRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
-    let filtered = products.filter(product => {
+    const filtered = products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
@@ -87,6 +88,7 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-black">
+      <Header />
       {/* Hero Section */}
       <section className="py-8 bg-gradient-to-br from-gray-900 via-black to-gray-900">
 
@@ -416,7 +418,25 @@ export default function ProductsPage() {
                       </div>
                     </div>
 
-                    <Button className="w-full gradient-gold text-black font-semibold hover:scale-105 transition-transform duration-200">
+                    <Button className="w-full gradient-gold text-black font-semibold hover:scale-105 transition-transform duration-200"
+                      onClick={() => {
+                        if (product.id) {
+                          // Add to cart functionality
+                          const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+                          const existingItem = cartItems.find((item: any) => item.id === product.id);
+
+                          if (existingItem) {
+                            existingItem.quantity += 1;
+                          } else {
+                            cartItems.push({ ...product, quantity: 1 });
+                          }
+
+                          localStorage.setItem('cart', JSON.stringify(cartItems));
+                          
+                          // Dispatch custom event to notify other components
+                          window.dispatchEvent(new Event('cartUpdated'));
+                        }
+                      }}>
                       <ShoppingCart className="w-4 h-4 mr-2" />
                       Add to Cart
                     </Button>

@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import Header from '@/components/Header';
 
 interface CartItem {
   id: number;
@@ -20,9 +20,17 @@ const CartPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('cart') || '[]');
-    setCartItems(items);
+    const loadCart = () => {
+      const items = JSON.parse(localStorage.getItem('cart') || '[]');
+      setCartItems(items);
+    };
+
+    loadCart();
     setIsLoading(false);
+
+    // Listen for cart updates
+    window.addEventListener('cartUpdated', loadCart);
+    return () => window.removeEventListener('cartUpdated', loadCart);
   }, []);
 
   const updateQuantity = (id: number, newQuantity: number) => {
@@ -36,17 +44,20 @@ const CartPage = () => {
     );
     setCartItems(updatedItems);
     localStorage.setItem('cart', JSON.stringify(updatedItems));
+    window.dispatchEvent(new Event('cartUpdated'));
   };
 
   const removeItem = (id: number) => {
     const updatedItems = cartItems.filter(item => item.id !== id);
     setCartItems(updatedItems);
     localStorage.setItem('cart', JSON.stringify(updatedItems));
+    window.dispatchEvent(new Event('cartUpdated'));
   };
 
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem('cart');
+    window.dispatchEvent(new Event('cartUpdated'));
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -64,24 +75,18 @@ const CartPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-900">
-      <Navigation />
-      
+      <Header />
+
       <div className="pt-20 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-white mb-4">Shopping Cart</h1>
-            <p className="text-gray-300">
-              {cartItems.length === 0 ? 'Your cart is empty' : `${cartItems.length} item${cartItems.length !== 1 ? 's' : ''} in your cart`}
-            </p>
-          </div>
 
           {cartItems.length === 0 ? (
             <div className="text-center py-16">
               <ShoppingBag className="mx-auto mb-4 text-gray-400" size={64} />
               <h2 className="text-2xl font-semibold text-white mb-4">Your cart is empty</h2>
               <p className="text-gray-400 mb-8">Discover our beautiful furniture collection</p>
-              <Link 
-                href="/catalog"
+              <Link
+                href="/products"
                 className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-orange-700 transition-all duration-300"
               >
                 Browse Catalog
@@ -95,12 +100,12 @@ const CartPage = () => {
                 {cartItems.map((item) => (
                   <div key={item.id} className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <img 
-                        src={item.image} 
+                      <img
+                        src={item.image}
                         alt={item.name}
                         className="w-full sm:w-24 h-48 sm:h-24 object-cover rounded-lg"
                       />
-                      
+
                       <div className="flex-1">
                         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
                           <div>
@@ -112,7 +117,7 @@ const CartPage = () => {
                             <div className="text-sm text-gray-400">each</div>
                           </div>
                         </div>
-                        
+
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-3">
                             <button
@@ -129,7 +134,7 @@ const CartPage = () => {
                               <Plus size={16} className="text-white" />
                             </button>
                           </div>
-                          
+
                           <div className="flex items-center space-x-4">
                             <div className="text-lg font-semibold text-white">
                               ${(item.price * item.quantity).toLocaleString()}
@@ -146,7 +151,7 @@ const CartPage = () => {
                     </div>
                   </div>
                 ))}
-                
+
                 <div className="flex justify-between items-center pt-4">
                   <button
                     onClick={clearCart}
@@ -154,8 +159,8 @@ const CartPage = () => {
                   >
                     Clear Cart
                   </button>
-                  <Link 
-                    href="/catalog"
+                  <Link
+                    href="/products"
                     className="text-amber-400 hover:text-amber-300 transition-colors"
                   >
                     Continue Shopping
@@ -166,7 +171,7 @@ const CartPage = () => {
               {/* Order Summary */}
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 h-fit">
                 <h2 className="text-2xl font-bold text-white mb-6">Order Summary</h2>
-                
+
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between">
                     <span className="text-gray-300">Subtotal</span>
@@ -190,7 +195,7 @@ const CartPage = () => {
                   </div>
                 </div>
 
-                <Link 
+                <Link
                   href="/checkout"
                   className="w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-orange-700 transition-all duration-300"
                 >
