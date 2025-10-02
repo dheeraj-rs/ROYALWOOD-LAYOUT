@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, ShoppingCart, User, Menu, X, Crown } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, Crown } from 'lucide-react';
 import { useApp } from '@/app/providers';
 import Cart from './Cart';
 import AuthModal from './AuthModal';

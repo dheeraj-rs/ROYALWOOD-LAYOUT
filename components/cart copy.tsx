@@ -1,7 +1,7 @@
 "use client";
 
-import { X, Minus, Plus, ShoppingBag } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { X, ShoppingBag } from "lucide-react";
+import { Button } from "./ui/button";
 
 interface CartProps {
   isOpen: boolean;

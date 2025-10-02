@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Star, ShoppingCart, Eye, Heart, Grid, List, Search, X, ArrowBigLeft, ArrowLeft, RefreshCcw } from 'lucide-react';
+import { Star, ShoppingCart, Eye, Heart, Grid, List, Search, X, ArrowLeft, RefreshCcw } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

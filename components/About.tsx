@@ -13,16 +13,16 @@ const About = () => {
               Crafting <span className="gold-text-gradient">Excellence</span>
               <br />Since 1998
             </h2>
-            
+
             <p className="text-gray-300 text-lg leading-relaxed mb-6">
               At Royalwood, we believe that exceptional furniture is more than just wood and fabric—
-              it's a testament to artistry, heritage, and the pursuit of perfection. For over 25 years, 
+              it's a testament to artistry, heritage, and the pursuit of perfection. For over 25 years,
               our master craftsmen have been creating heirloom-quality pieces that transform houses into homes.
             </p>
-            
+
             <p className="text-gray-400 leading-relaxed mb-8">
-              Every piece in our collection is meticulously handcrafted using time-honored techniques 
-              passed down through generations. We source only the finest materials from around the world, 
+              Every piece in our collection is meticulously handcrafted using time-honored techniques
+              passed down through generations. We source only the finest materials from around the world,
               ensuring that each creation not only looks magnificent but stands the test of time.
             </p>
 
@@ -55,14 +55,14 @@ const About = () => {
                 alt="Master Craftsman"
                 className="w-full h-96 object-cover rounded-lg"
               />
-              
+
               <div className="absolute -top-6 -right-6 glass-morphism-dark p-6 rounded-xl">
                 <div className="text-center">
                   <div className="font-playfair text-2xl font-bold gold-text-gradient mb-1">25</div>
                   <div className="text-xs text-gray-400">Years of Excellence</div>
                 </div>
               </div>
-              
+
               <div className="absolute -bottom-6 -left-6 glass-morphism-dark p-4 rounded-xl">
                 <div className="text-center">
                   <div className="font-playfair text-lg font-bold gold-text-gradient mb-1">Master</div>

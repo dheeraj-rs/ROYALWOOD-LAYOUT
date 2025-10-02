@@ -1,9 +1,8 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Search, Filter, Grid, List, Star } from 'lucide-react';
+import { Search, Filter, Grid, List } from 'lucide-react';
 import ProductCard from './ProductCard';
-import { useApp } from '@/app/providers';
 import type { Product } from '@/app/providers';
 
 const mockProducts: Product[] = [
@@ -118,7 +117,7 @@ const ProductCatalog = () => {
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
       const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
-      
+
       return matchesSearch && matchesCategory && matchesPrice;
     });
 
@@ -240,15 +239,14 @@ const ProductCatalog = () => {
         </div>
 
         {/* Products Grid */}
-        <div className={`${
-          viewMode === 'grid' 
-            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8' 
-            : 'space-y-6'
-        }`}>
+        <div className={`${viewMode === 'grid'
+          ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'
+          : 'space-y-6'
+          }`}>
           {filteredProducts.map((product, index) => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
+            <ProductCard
+              key={product.id}
+              product={product}
               viewMode={viewMode}
               className="fade-in-up"
               style={{ animationDelay: `${index * 0.1}s` }}
