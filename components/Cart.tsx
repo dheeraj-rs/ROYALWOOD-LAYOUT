@@ -37,11 +37,11 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Backdrop */}
-      <div 
+      <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
-      
+
       {/* Cart Panel */}
       <div className="absolute right-0 top-0 h-full w-full max-w-md bg-black/90 backdrop-blur-xl border-l border-white/10">
         <div className="flex flex-col h-full">
@@ -135,7 +135,7 @@ const Cart = ({ isOpen, onClose }: CartProps) => {
                   ${total.toLocaleString()}
                 </span>
               </div>
-              
+
               <div className="space-y-3">
                 <button className="w-full gold-gradient text-black font-semibold py-4 rounded-lg hover:scale-105 transition-all duration-300">
                   Proceed to Checkout

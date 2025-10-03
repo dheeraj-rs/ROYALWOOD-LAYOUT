@@ -62,10 +62,11 @@ const Header = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="#home" className="hover:text-yellow-400 transition-colors">Home</a>
-              <a href="#products" className="hover:text-yellow-400 transition-colors">Products</a>
-              <a href="#about" className="hover:text-yellow-400 transition-colors">About</a>
-              <a href="#contact" className="hover:text-yellow-400 transition-colors">Contact</a>
+              <Link href="/" className="hover:text-yellow-400 transition-colors">Home</Link>
+              <Link href="/gallery" className="hover:text-yellow-400 transition-colors">Gallery</Link>
+              <Link href="/products" className="hover:text-yellow-400 transition-colors">Products</Link>
+              <Link href="/about" className="hover:text-yellow-400 transition-colors">About</Link>
+              <Link href="/contact" className="hover:text-yellow-400 transition-colors">Contact</Link>
             </nav>
 
             {/* Actions */}
@@ -102,10 +103,11 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 glass-morphism-dark mx-4 rounded-lg p-6">
             <nav className="flex flex-col space-y-4">
-              <a href="#home" className="hover:text-yellow-400 transition-colors">Home</a>
-              <a href="#products" className="hover:text-yellow-400 transition-colors">Products</a>
-              <a href="#about" className="hover:text-yellow-400 transition-colors">About</a>
-              <a href="#contact" className="hover:text-yellow-400 transition-colors">Contact</a>
+              <Link href="/" className="hover:text-yellow-400 transition-colors">Home</Link>
+              <Link href="/gallery" className="hover:text-yellow-400 transition-colors">Gallery</Link>
+              <Link href="/products" className="hover:text-yellow-400 transition-colors">Products</Link>
+              <Link href="/about" className="hover:text-yellow-400 transition-colors">About</Link>
+              <Link href="/contact" className="hover:text-yellow-400 transition-colors">Contact</Link>
             </nav>
           </div>
         )}
