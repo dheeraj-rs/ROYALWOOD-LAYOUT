@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import { Star, Quote } from 'lucide-react';
 import Link from 'next/link';
 import Header from '@/components/Header';
+import SubHeader from '@/components/SubHeader';
 
 const PortfolioPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -103,21 +104,21 @@ const PortfolioPage = () => {
     : projects.filter(project => project.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-slate-900">
-      <Header />
+    <div className="min-h-screen  bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <SubHeader />
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-16 overflow-hidden">
+      <section className="relative overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: 'url(https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1920)',
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-slate-900/70"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-20">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
               Our
@@ -134,7 +135,7 @@ const PortfolioPage = () => {
       </section>
 
       {/* Filter Categories */}
-      <section className="py-8 bg-slate-800 border-b border-slate-700">
+      <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
             {categories.map((category) => (
@@ -154,7 +155,7 @@ const PortfolioPage = () => {
       </section>
 
       {/* Portfolio Grid */}
-      <section className="py-20 bg-slate-900">
+      <section className="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project) => (
@@ -185,7 +186,7 @@ const PortfolioPage = () => {
       </section>
 
       {/* Customer Reviews */}
-      <section className="py-20 bg-slate-800">
+      <section className="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -231,33 +232,6 @@ const PortfolioPage = () => {
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-amber-600 to-orange-700">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Ready to Start Your Project?
-          </h2>
-          <p className="text-xl text-amber-100 mb-8 max-w-2xl mx-auto">
-            Let us help you create a space that reflects your unique style and exceeds your expectations.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/contact"
-              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-amber-600 bg-white rounded-lg hover:bg-gray-100 transition-colors duration-300"
-            >
-              Start Your Project
-            </a>
-            <a
-              href="/catalog"
-              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white border-2 border-white rounded-lg hover:bg-white hover:text-amber-600 transition-all duration-300"
-            >
-              Browse Catalog
-            </a>
-          </div>
-        </div>
-      </section>
-
       <Footer />
     </div>
   );

@@ -5,13 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Star, ShoppingCart, Eye, Heart, Grid, List, Search, X, ArrowLeft, RefreshCcw } from 'lucide-react';
+import { Star, ShoppingCart, Eye, Heart, Grid, List, Search, X, ArrowLeft, RefreshCcw, User, Menu, ChevronLeft } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { products } from '@/lib/products';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import AuthModal from '@/components/AuthModal';
+import SubHeader from '@/components/SubHeader';
 
 export default function ProductsPage() {
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -86,19 +88,69 @@ export default function ProductsPage() {
   const categories = ["Living Room", "Bedroom", "Dining Room", "Office", "Outdoor"];
   const woodTypes = ["Oak", "Walnut", "Maple", "Cherry", "Pine"];
 
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  // Load cart items from localStorage
+  useEffect(() => {
+    const loadCart = () => {
+      const items = JSON.parse(localStorage.getItem('cart') || '[]');
+      setCartItems(items);
+    };
+
+    // Initial load
+    loadCart();
+
+    // Listen for storage events (from other tabs/windows)
+    window.addEventListener('storage', loadCart);
+
+    // Listen for custom cart update events (same page)
+    window.addEventListener('cartUpdated', loadCart);
+
+    return () => {
+      window.removeEventListener('storage', loadCart);
+      window.removeEventListener('cartUpdated', loadCart);
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-black">
-      <Header />
+    <div className="min-h-screen  bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <SubHeader />
       {/* Hero Section */}
-      <section className="py-8 bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <section className="py-8">
 
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
-          <button
-            onClick={() => router.back()}
-            className={`bg-white/10 border-white/20 text-white flex items-center justify-center rounded-lg hover:text-white px-4 py-2`}
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </button>
+
+          {/* 
+          <div className="flex items-center justify-between space-x-4">
+            <button
+              onClick={() => router.back()}
+              className={`bg-white/10 border-white/20 text-white flex items-center justify-center rounded-lg hover:text-white px-4 py-2`}
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </button>
+            <div className="flex items-center gap-3.5">
+              <Link href="/cart"
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+              >
+                <ShoppingCart size={20} />
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
+                    {cartItems.length}
+                  </span>
+                )}
+              </Link>
+
+              <button
+                onClick={() => setIsAuthOpen(true)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              >
+                <User size={20} />
+              </button>
+            </div>
+          </div>
+
+          <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} /> */}
+
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-playfair text-white mb-4">
               Our <span className="text-amber-500">Products</span>
@@ -110,19 +162,13 @@ export default function ProductsPage() {
         </div>
       </section>
 
+
       {/* Filters and Search */}
-      <section className="py-2 bg-gray-900/50 backdrop-blur-sm sticky top-0 z-40 border-b border-white/10">
+      <section className="py-2 bg-gray-900/50 backdrop-blur-sm lg:sticky lg:top-0 z-40 border-b border-white/10">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-row gap-2 items-center justify-between">
             {/* Search */}
             <div className="flex items-center gap-4 w-full relative">
-              <button
-                onClick={() => { setMobileFiltersOpen('none'); }}
-                className={`bg-white/10 border-white/20 text-white flex items-center justify-center rounded-lg hover:text-white lg:hidden px-4 py-2 ${mobileFilterTypesOpen === 'none' ? 'hidden' : 'flex'
-                  }`}
-              >
-                <ArrowLeft className="w-4 h-4" />
-              </button>
 
               {/* Mobile Search */}
               <div className={`relative flex-1 max-w-md w-full transition-all duration-300 ${mobileFilterTypesOpen === 'search' ? 'block' : 'hidden lg:block'
@@ -183,6 +229,15 @@ export default function ProductsPage() {
                   ))}
                 </div>
               </div>
+
+              <button
+                onClick={() => { setMobileFiltersOpen('none'); }}
+                className={`bg-white/10 border-white/20 text-white flex items-center justify-center rounded-lg hover:text-white lg:hidden px-4 py-2 ${mobileFilterTypesOpen === 'none' ? 'hidden' : 'flex'
+                  }`}
+              >
+                {/* <ChevronLeft className="w-4 h-4" /> */}
+                Back
+              </button>
 
 
             </div>
@@ -432,7 +487,7 @@ export default function ProductsPage() {
                           }
 
                           localStorage.setItem('cart', JSON.stringify(cartItems));
-                          
+
                           // Dispatch custom event to notify other components
                           window.dispatchEvent(new Event('cartUpdated'));
                         }

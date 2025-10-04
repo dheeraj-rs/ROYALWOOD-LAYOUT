@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SubHeader from '@/components/SubHeader';
 
 function AboutPage() {
   const [visibleStats, setVisibleStats] = useState<boolean[]>([false, false, false, false]);
@@ -116,11 +117,11 @@ function AboutPage() {
   }, [values.length]);
 
   return (
-    <div className="min-h-screen bg-black">
-      <Header />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 ">
+      <SubHeader />
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-16 bg-gradient-to-br from-gray-900 via-black to-gray-800 overflow-hidden">
+      <section className="relative pt-20 pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-yellow-400/10 via-transparent to-transparent"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

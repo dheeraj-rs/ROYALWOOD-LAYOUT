@@ -9,6 +9,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Cart } from "@/components/cart copy";
 import { Card, CardContent } from "@/components/ui/card";
+import SubHeader from "@/components/SubHeader";
 
 export default function ContactPage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -26,10 +27,10 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden">
-      <div className="fixed inset-0 bg-gradient-to-br from-amber-900/10 via-black to-slate-900/20 pointer-events-none" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800  relative overflow-hidden">
+      {/* <div className="fixed inset-0 bg-gradient-to-br from-amber-900/10 via-black to-slate-900/20 pointer-events-none" /> */}
 
-      <Header />
+      <SubHeader />
 
       <main className="relative pt-24 md:pt-32 pb-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">

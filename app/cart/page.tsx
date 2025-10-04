@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
-import Header from '@/components/Header';
+import SubHeader from '@/components/SubHeader';
 
 interface CartItem {
   id: number;
@@ -74,8 +74,8 @@ const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900">
-      <Header />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <SubHeader />
 
       <div className="pt-20 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
