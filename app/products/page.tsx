@@ -89,7 +89,6 @@ export default function ProductsPage() {
   const woodTypes = ["Oak", "Walnut", "Maple", "Cherry", "Pine"];
 
   const [cartItems, setCartItems] = useState<any[]>([]);
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
   // Load cart items from localStorage
   useEffect(() => {
     const loadCart = () => {

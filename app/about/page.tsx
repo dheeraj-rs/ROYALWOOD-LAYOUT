@@ -9,12 +9,8 @@ import {
   Globe,
   Leaf,
   ArrowRight,
-  Heart,
-  Star,
-  Handshake,
   Clock
 } from 'lucide-react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import SubHeader from '@/components/SubHeader';
 
@@ -160,13 +156,13 @@ function AboutPage() {
               </h2>
 
               <p className="text-lg text-white/80 leading-relaxed">
-                What began as a small workshop in 1999 has evolved into one of India's most trusted luxury furniture brands.
+                What began as a small workshop in 1999 has evolved into one of India&apos;s most trusted luxury furniture brands.
                 Our founder, Rajesh Sharma, started with a simple vision: to create furniture that combines traditional
                 craftsmanship with contemporary design.
               </p>
 
               <p className="text-lg text-white/80 leading-relaxed">
-                Today, Royalwood stands as a testament to that vision. We've furnished over 50,000 homes across 15 cities,
+                Today, Royalwood stands as a testament to that vision. We&apos;ve furnished over 50,000 homes across 15 cities,
                 each piece telling a story of dedication, artistry, and passion. Our commitment extends beyond beautiful
                 furniture – we believe in sustainable practices, ethical sourcing, and creating pieces that will be
                 cherished for generations.

@@ -48,7 +48,6 @@ const SubHeader = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const cartItemsCount = state.cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <>

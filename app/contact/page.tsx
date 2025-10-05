@@ -5,9 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from "lucide-react";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Cart } from "@/components/cart copy";
+import Cart from "@/components/Cart";
 import { Card, CardContent } from "@/components/ui/card";
 import SubHeader from "@/components/SubHeader";
 
@@ -41,7 +40,7 @@ export default function ContactPage() {
               </span>
             </h1>
             <p className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto">
-              Have a question or want to discuss a custom furniture project? We'd love to hear from you.
+              Have a question or want to discuss a custom furniture project? We&apos;d love to hear from you.
             </p>
           </div>
 

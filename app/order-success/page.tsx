@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { CheckCircle, Package, Truck, Calendar, ArrowRight } from 'lucide-react';
-import Header from '@/components/Header';
+import SubHeader from '@/components/SubHeader';
 
 const OrderSuccessPage = () => {
   const orderNumber = `RW${Date.now().toString().slice(-6)}`;
@@ -14,8 +14,8 @@ const OrderSuccessPage = () => {
   });
 
   return (
-    <div className="min-h-screen bg-slate-900">
-      <Header />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <SubHeader />
 
       <div className="pt-20 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -45,7 +45,7 @@ const OrderSuccessPage = () => {
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">Order Processing</h3>
                 <p className="text-gray-400 text-sm">
-                  We're preparing your custom furniture pieces with care and attention to detail.
+                  We&apos;re preparing your custom furniture pieces with care and attention to detail.
                 </p>
                 <div className="text-amber-400 text-sm font-medium mt-2">1-2 business days</div>
               </div>
@@ -87,7 +87,7 @@ const OrderSuccessPage = () => {
                   </div>
                 </div>
                 <div className="text-sm text-gray-400 mt-4">
-                  You'll receive tracking information and delivery updates via email and SMS.
+                  You&apos;ll receive tracking information and delivery updates via email and SMS.
                 </div>
               </div>
             </div>
@@ -129,8 +129,8 @@ const OrderSuccessPage = () => {
           <div className="text-center mt-12 p-8 bg-gradient-to-r from-amber-600/10 to-orange-700/10 rounded-2xl border border-amber-400/20">
             <h3 className="text-2xl font-bold text-white mb-4">Thank You for Choosing Royalwood</h3>
             <p className="text-gray-300 leading-relaxed max-w-2xl mx-auto">
-              We're honored to be part of your home's transformation. Our craftsmen are already
-              working on your custom pieces, and we can't wait for you to experience the quality
+              We&apos;re honored to be part of your home&apos;s transformation. Our craftsmen are already
+              working on your custom pieces, and we can&apos;t wait for you to experience the quality
               and beauty of Royalwood furniture.
             </p>
           </div>

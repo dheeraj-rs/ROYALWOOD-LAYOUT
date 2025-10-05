@@ -23,20 +23,20 @@ const Newsletter = () => {
             <div className="w-20 h-20 mx-auto mb-8 gold-gradient rounded-full flex items-center justify-center">
               <Mail size={32} className="text-black" />
             </div>
-            
+
             <h2 className="font-playfair text-3xl md:text-4xl font-bold mb-4">
               Stay Updated with <span className="gold-text-gradient">Royalwood</span>
             </h2>
-            
+
             <p className="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
-              Be the first to know about new collections, exclusive offers, and interior design tips 
+              Be the first to know about new collections, exclusive offers, and interior design tips
               from our experts. Join thousands of design enthusiasts.
             </p>
 
             {subscribed ? (
               <div className="glass-morphism-dark rounded-lg p-6 max-w-md mx-auto">
                 <div className="text-yellow-400 font-semibold text-lg mb-2">Thank you!</div>
-                <div className="text-gray-400">You've been added to our exclusive list.</div>
+                <div className="text-gray-400">You&apos;ve been added to our exclusive list.</div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="max-w-md mx-auto">

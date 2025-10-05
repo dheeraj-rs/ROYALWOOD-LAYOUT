@@ -5,7 +5,6 @@ import { ArrowLeft, Star, Calendar, User, MapPin } from 'lucide-react';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 
-// Define the project type for TypeScript
 type Project = {
   id: string;
   title: string;

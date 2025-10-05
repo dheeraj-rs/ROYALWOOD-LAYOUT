@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Footer from '@/components/Footer';
 import { Star, Quote } from 'lucide-react';
 import Link from 'next/link';
-import Header from '@/components/Header';
 import SubHeader from '@/components/SubHeader';
 
 const PortfolioPage = () => {

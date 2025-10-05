@@ -16,7 +16,7 @@ const About = () => {
 
             <p className="text-gray-300 text-lg leading-relaxed mb-6">
               At Royalwood, we believe that exceptional furniture is more than just wood and fabric—
-              it's a testament to artistry, heritage, and the pursuit of perfection. For over 25 years,
+              it&apos;s a testament to artistry, heritage, and the pursuit of perfection. For over 25 years,
               our master craftsmen have been creating heirloom-quality pieces that transform houses into homes.
             </p>
 
