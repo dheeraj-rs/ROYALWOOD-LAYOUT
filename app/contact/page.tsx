@@ -45,41 +45,82 @@ export default function ContactPage() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-            {[
-              {
-                icon: MapPin,
-                title: "Visit Us",
-                lines: ["123 Design Street", "New York, NY 10001", "United States"],
-              },
-              {
-                icon: Phone,
-                title: "Call Us",
-                lines: ["+1 (555) 123-4567", "+1 (555) 987-6543", "Mon-Fri 9AM-6PM"],
-              },
-              {
-                icon: Mail,
-                title: "Email Us",
-                lines: ["hello@royalwood.com", "support@royalwood.com", "sales@royalwood.com"],
-              },
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-amber-500/10 hover:border-amber-500/30 transition-all duration-500 hover:scale-105 text-center"
-                style={{
-                  animation: `fadeInUp 0.6s ease-out ${index * 0.2}s both`,
-                }}
-              >
-                <div className="inline-flex w-16 h-16 rounded-full bg-amber-500/20 border border-amber-500/30 items-center justify-center mb-6">
-                  <item.icon className="w-8 h-8 text-amber-400" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-4">{item.title}</h3>
-                {item.lines.map((line, i) => (
-                  <p key={i} className="text-gray-400 text-sm">
-                    {line}
-                  </p>
-                ))}
+            {/* Visit Us Card */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-amber-500/10 hover:border-amber-500/30 transition-all duration-500 hover:scale-105 text-center">
+              <div className="inline-flex w-16 h-16 rounded-full bg-amber-500/20 border border-amber-500/30 items-center justify-center mb-6">
+                <MapPin className="w-8 h-8 text-amber-400" />
               </div>
-            ))}
+              <h3 className="text-xl font-bold text-white mb-4">Visit Us</h3>
+              <p className="text-gray-400 text-sm">
+                <a
+                  href="https://maps.app.goo.gl/5veUqc1BvhmEidgf8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-amber-400 transition-colors cursor-pointer underline"
+                >
+                  Quilandy Elattery Street
+                </a>
+              </p>
+              <p className="text-gray-400 text-sm">Kozhikode, 673306</p>
+              <p className="text-gray-400 text-sm">Kerala</p>
+            </div>
+
+            {/* Call Us Card */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-amber-500/10 hover:border-amber-500/30 transition-all duration-500 hover:scale-105 text-center">
+              <div className="inline-flex w-16 h-16 rounded-full bg-amber-500/20 border border-amber-500/30 items-center justify-center mb-6">
+                <Phone className="w-8 h-8 text-amber-400" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-4">Call Us</h3>
+              <p className="text-gray-400 text-sm">
+                <a
+                  href="tel:+919745671335"
+                  className="hover:text-amber-400 transition-colors cursor-pointer underline"
+                >
+                  +91 9745671335
+                </a>
+              </p>
+              <p className="text-gray-400 text-sm">
+                <a
+                  href="tel:+918086022295"
+                  className="hover:text-amber-400 transition-colors cursor-pointer underline"
+                >
+                  +91 8086022295
+                </a>
+              </p>
+              <p className="text-gray-400 text-sm">Mon-Sat 7AM-9PM</p>
+            </div>
+
+            {/* Email Us Card */}
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-amber-500/10 hover:border-amber-500/30 transition-all duration-500 hover:scale-105 text-center">
+              <div className="inline-flex w-16 h-16 rounded-full bg-amber-500/20 border border-amber-500/30 items-center justify-center mb-6">
+                <Mail className="w-8 h-8 text-amber-400" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-4">Email Us</h3>
+              <p className="text-gray-400 text-sm">
+                <a
+                  href="mailto:hello@royalwood.com"
+                  className="hover:text-amber-400 transition-colors cursor-pointer underline"
+                >
+                  hello@royalwood.com
+                </a>
+              </p>
+              <p className="text-gray-400 text-sm">
+                <a
+                  href="mailto:support@royalwood.com"
+                  className="hover:text-amber-400 transition-colors cursor-pointer underline"
+                >
+                  support@royalwood.com
+                </a>
+              </p>
+              <p className="text-gray-400 text-sm">
+                <a
+                  href="mailto:sales@royalwood.com"
+                  className="hover:text-amber-400 transition-colors cursor-pointer underline"
+                >
+                  sales@royalwood.com
+                </a>
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -158,7 +199,6 @@ export default function ContactPage() {
                 </div>
 
                 <Button
-                  type="submit"
                   size="lg"
                   className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold py-6 text-lg shadow-lg shadow-amber-500/50 hover:shadow-amber-500/70 transition-all duration-300 hover:scale-105"
                 >
@@ -168,55 +208,61 @@ export default function ContactPage() {
               </form>
             </div>
 
-            <div className="space-y-8">
-              <div className="relative rounded-2xl overflow-hidden aspect-square lg:aspect-auto lg:h-full min-h-[400px]">
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{
-                    backgroundImage: "url('https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg?auto=compress&cs=tinysrgb&w=800')",
-                    filter: "brightness(0.5)",
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+            <div className="relative rounded-2xl overflow-hidden aspect-square lg:aspect-auto lg:h-full min-h-[500px] md:min-h-[400px]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d429.6034650674206!2d75.72421386247498!3d11.431886714389416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e6!4m3!3m2!1d11.432215!2d75.7245287!4m3!3m2!1d11.4322238!2d75.7245468!5e1!3m2!1sen!2sin!4v1759677295521!5m2!1sen!2sin"
+                className="absolute inset-0 w-full h-full"
+                style={{ border: 0, filter: 'brightness(0.4) saturate(0.8)' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
 
-                <div className="absolute inset-0 flex flex-col justify-end p-8 space-y-6">
-                  <div className="space-y-4">
-                    <h3 className="text-2xl md:text-3xl font-bold text-white">
-                      Visit Our <span className="text-amber-400">Showroom</span>
-                    </h3>
-                    <p className="text-gray-300">
-                      Experience our furniture collection in person. Book an appointment for a personalized consultation.
-                    </p>
-                  </div>
+              <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 md:p-8 space-y-3 sm:space-y-4 md:space-y-6">
+                <div className="space-y-2 sm:space-y-3 md:space-y-4">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+                    Visit Our <span className="text-amber-400">Showroom</span>
+                  </h3>
+                  <p className="text-gray-300 text-sm sm:text-base">
+                    Experience our furniture collection in person.
+                  </p>
+                </div>
 
-                  <div className="space-y-4">
-                    <div className="flex items-start space-x-3 text-gray-300">
-                      <Clock className="w-5 h-5 text-amber-400 mt-1 shrink-0" />
-                      <div>
-                        <p className="font-semibold text-white">Opening Hours</p>
-                        <p className="text-sm">Monday - Friday: 9:00 AM - 6:00 PM</p>
-                        <p className="text-sm">Saturday: 10:00 AM - 4:00 PM</p>
-                        <p className="text-sm">Sunday: Closed</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start space-x-3 text-gray-300">
-                      <MessageCircle className="w-5 h-5 text-amber-400 mt-1 shrink-0" />
-                      <div>
-                        <p className="font-semibold text-white">Live Chat</p>
-                        <p className="text-sm">Available during business hours for instant support</p>
-                      </div>
+                <div className="space-y-2 sm:space-y-3 md:space-y-4">
+                  <div className="flex items-start space-x-2 sm:space-x-3 text-gray-300">
+                    <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 mt-1 shrink-0" />
+                    <div>
+                      <p className="font-semibold text-white text-sm sm:text-base">Opening Hours</p>
+                      <p className="text-xs sm:text-sm">Mon-Fri: 7:00 AM - 3:00 PM</p>
+                      <p className="text-xs sm:text-sm">Saturday: 8:00 AM - 4:00 PM</p>
+                      <p className="text-xs sm:text-sm">Sunday: Closed</p>
                     </div>
                   </div>
 
+                  <div className="flex items-start space-x-2 sm:space-x-3 text-gray-300">
+                    <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 mt-1 shrink-0" />
+                    <div>
+                      <p className="font-semibold text-white text-sm sm:text-base">Live Chat</p>
+                      <p className="text-xs sm:text-sm">Available during business hours</p>
+                    </div>
+                  </div>
+                </div>
+
+                <a
+                  href="https://www.google.com/maps?q=11.43224592722264,75.7246344596716"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full"
+                >
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-amber-500/50 text-amber-400 hover:bg-amber-500/10 hover:border-amber-500"
+                    className="border-amber-500/50 text-amber-400 cursor-pointer hover:bg-amber-500/10 hover:border-amber-500 lg:w-full text-sm sm:text-base py-2 sm:py-3"
                   >
-                    Book Appointment
+                    Visit Our Showroom
                   </Button>
-                </div>
+                </a>
               </div>
             </div>
           </div>
@@ -283,6 +329,6 @@ export default function ContactPage() {
 
       <Footer />
       <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
-    </div>
+    </div >
   );
 }

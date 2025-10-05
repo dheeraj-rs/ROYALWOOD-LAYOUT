@@ -72,11 +72,11 @@ const Hero = () => {
       </div>
       {isVideoPlaying && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/20 backdrop-blur-md"
+          className="fixed inset-0 z-50 flex items-center justify-center lg:p-4 bg-black/20 backdrop-blur-md"
           onClick={() => setIsVideoPlaying(false)}
         >
           <div
-            className="relative w-full max-w-5xl bg-gradient-to-br from-gray-900 via-black to-gray-900 rounded-2xl border border-amber-500/30 shadow-2xl overflow-hidden"
+            className="relative w-full h-full lg:h-auto lg:max-w-5xl bg-gradient-to-br from-gray-900 via-black to-gray-900 lg:rounded-2xl border-0 lg:border lg:border-amber-500/30 shadow-2xl overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between p-4 border-b border-white/10 bg-black/50 backdrop-blur-sm">
@@ -88,13 +88,14 @@ const Hero = () => {
                 <X size={24} />
               </button>
             </div>
-            <div className="relative w-full aspect-video bg-black">
+            <div className="relative w-full flex-1 lg:flex-none lg:aspect-video bg-black touch-manipulation">
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/nb_fFj_0rq8?si=ad1NwlQNVQm5HTm5&autoplay=1"
+                src="https://www.youtube.com/embed/nb_fFj_0rq8?si=ad1NwlQNVQm5HTm5&autoplay=1&fs=1&modestbranding=1"
                 title="Royalwood Story"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                 allowFullScreen
+                style={{ border: 'none' }}
               ></iframe>
             </div>
           </div>

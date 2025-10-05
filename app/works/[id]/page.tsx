@@ -1,9 +1,14 @@
-import { Metadata } from 'next';
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Star, Calendar, User, MapPin } from 'lucide-react';
 import Footer from '@/components/Footer';
 import SubHeader from '@/components/SubHeader';
+import { useState, use } from 'react';
+import Lightbox from 'yet-another-react-lightbox';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import 'yet-another-react-lightbox/styles.css';
 
 type Project = {
   id: string;
@@ -118,33 +123,17 @@ const projects: Project[] = [
   }
 ];
 
-export async function generateStaticParams() {
-  return projects.map((project) => ({
-    id: project.id,
-  }));
-}
-
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const project = projects.find((p: Project) => p.id === params.id);
-
-  if (!project) {
-    return {
-      title: 'Project Not Found | Royalwood Interiors',
-    };
-  }
-
-  return {
-    title: `${project.title} | Royalwood Interiors`,
-    description: project.description,
-    openGraph: {
-      images: [project.mainImage],
-    },
-  };
-}
-
-export default function ProjectDetailPage({ params }: { params: { id: string } }) {
-  const projectId = params.id;
+export default function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id: projectId } = use(params);
   const project = projects.find(p => p.id === projectId);
+
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const openLightbox = (index: number) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+  };
 
   if (!project) {
     return (
@@ -240,7 +229,11 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
           <h2 className="text-3xl font-bold text-white mb-8">Project Gallery</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {project.images.map((image, index) => (
-              <div key={index} className="group cursor-pointer overflow-hidden rounded-xl">
+              <div
+                key={index}
+                className="group cursor-pointer overflow-hidden rounded-xl"
+                onClick={() => openLightbox(index)}
+              >
                 <Image
                   src={image}
                   alt={`${project.title} - Image ${index + 1}`}
@@ -324,6 +317,26 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         </div>
       </section>
 
+      {/* Lightbox */}
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        index={currentImageIndex}
+        slides={project.images.map((image) => ({ src: image }))}
+        plugins={[Zoom]}
+        zoom={{
+          maxZoomPixelRatio: 3,
+          scrollToZoom: true,
+        }}
+        styles={{
+          container: { backgroundColor: 'rgba(0, 0, 0, 0.95)' },
+        }}
+        controller={{
+          closeOnBackdropClick: true,
+          closeOnPullDown: true,
+          closeOnPullUp: true,
+        }}
+      />
       <Footer />
     </div>
   );

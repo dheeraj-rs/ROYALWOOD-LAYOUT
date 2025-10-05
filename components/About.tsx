@@ -52,9 +52,9 @@ const About = () => {
           <div className="relative fade-in-up px-4">
             <div className="glass-morphism rounded-2xl p-6 hover-lift">
               <Image
-                src="https://images.pexels.com/photos/1571470/pexels-photo-1571470.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src="/owner-photo.jpeg"
                 alt="Master Craftsman"
-                className="w-full h-96 object-cover rounded-lg"
+                className="w-full h-auto object-cover rounded-lg aspect-[3/4]"
                 width={800}
                 height={600}
               />

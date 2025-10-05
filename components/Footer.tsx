@@ -82,7 +82,7 @@ const Footer = () => {
           <div>
             <h3 className="font-playfair text-xl font-semibold mb-6">Categories</h3>
             <ul className="space-y-4">
-              {['Living Room', 'Bedroom', 'Dining Room', 'Office', 'Lighting', 'Accessories'].map((category) => (
+              {['Living Room', 'Bedroom', 'Dining Room', 'Office', 'Accessories'].map((category) => (
                 <li key={category}>
                   <a
                     href={`/products/${category.toLowerCase().replace(' ', '')}`}
@@ -101,19 +101,22 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin size={20} className="text-yellow-400 mt-1" />
                 <div className="text-gray-400">
-                  <p>123 Luxury Avenue</p>
-                  <p>Design District, NY 10001</p>
+                  <a href="https://maps.app.goo.gl/5veUqc1BvhmEidgf8"
+                  >Quilandy , Elattery Street</a>
+                  <p>Kozhikode , Kerala 673306</p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-3">
                 <Phone size={20} className="text-yellow-400" />
-                <span className="text-gray-400">+1 (555) 123-4567</span>
+                <a className="text-gray-400" href="tel:+919745671335"
+                >+91 9745671335</a>
               </div>
 
               <div className="flex items-center space-x-3">
                 <Mail size={20} className="text-yellow-400" />
-                <span className="text-gray-400">hello@royalwood.com</span>
+                <a className="text-gray-400" href="mailto:rajanroyalwood@gmail.com"
+                >rajanroyalwood@gmail.com</a>
               </div>
 
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
@@ -121,11 +124,11 @@ const Footer = () => {
                 <div className="text-white/70 text-sm space-y-1">
                   <div className="flex justify-between">
                     <span>Mon - Sat:</span>
-                    <span>10:00 AM - 8:00 PM</span>
+                    <span>7:00 AM - 9:00 PM</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Sunday:</span>
-                    <span>11:00 AM - 6:00 PM</span>
+                    <span>7:00 AM - 6:00 PM</span>
                   </div>
                 </div>
               </div>
