@@ -4,9 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Star, Heart, ShoppingCart, Truck, Shield, RotateCcw, Share2, Minus, Plus } from "lucide-react";
 import Link from "next/link";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Cart from "@/components/Cart";
+import SubHeader from "@/components/SubHeader";
 
 const product = {
   id: 1,
@@ -41,16 +40,13 @@ const product = {
 };
 
 export default function ProductPage() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden">
-      <div className="fixed inset-0 bg-gradient-to-br from-amber-900/10 via-black to-slate-900/20 pointer-events-none" />
-
-      <Header />
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <SubHeader />
 
       <main className="relative pt-24 md:pt-32 pb-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -236,7 +232,6 @@ export default function ProductPage() {
       </main>
 
       <Footer />
-      <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </div>
   );
 }

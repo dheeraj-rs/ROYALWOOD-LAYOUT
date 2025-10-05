@@ -1,19 +1,35 @@
 'use client';
-
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Star, ShoppingCart, Eye, Heart, Grid, List, Search, X, ArrowLeft, RefreshCcw, User, Menu, ChevronLeft } from 'lucide-react';
+import { Star, ShoppingCart, Eye, Heart, Grid, List, Search, X, RefreshCcw, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { products } from '@/lib/products';
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
-import AuthModal from '@/components/AuthModal';
 import SubHeader from '@/components/SubHeader';
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  originalPrice: number;
+  rating: number;
+  reviews: number;
+  image: string;
+  category: string;
+  woodType: string;
+  isNew?: boolean;
+  isBestseller?: boolean;
+  discount: number;
+  description: string;
+};
+
+type CartItem = Product & {
+  quantity: number;
+};
 
 export default function ProductsPage() {
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -21,15 +37,21 @@ export default function ProductsPage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedWoodTypes, setSelectedWoodTypes] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState([0, 4000]);
-  const [sortBy, setSortBy] = useState('featured');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [showFilters, setShowFilters] = useState(false);
   const [mobileFilterTypesOpen, setMobileFiltersOpen] = useState('none');
-
-  const router = useRouter();
-
+  const [favorites, setFavorites] = useState<number[]>([]);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(true);
+  const [isWoodTypeOpen, setIsWoodTypeOpen] = useState(true);
   const categoryRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const woodTypeRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const toggleFavorite = (productId: number) => {
+    setFavorites(prev =>
+      prev.includes(productId)
+        ? prev.filter(id => id !== productId)
+        : [...prev, productId]
+    );
+  };
 
   useEffect(() => {
     const filtered = products.filter(product => {
@@ -42,25 +64,8 @@ export default function ProductsPage() {
       return matchesSearch && matchesCategory && matchesWoodType && matchesPrice;
     });
 
-    switch (sortBy) {
-      case 'price-low':
-        filtered.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-high':
-        filtered.sort((a, b) => b.price - a.price);
-        break;
-      case 'rating':
-        filtered.sort((a, b) => b.rating - a.rating);
-        break;
-      case 'newest':
-        filtered.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
-        break;
-      default:
-        break;
-    }
-
     setFilteredProducts(filtered);
-  }, [searchTerm, selectedCategories, selectedWoodTypes, priceRange, sortBy]);
+  }, [searchTerm, selectedCategories, selectedWoodTypes, priceRange]);
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
@@ -88,68 +93,14 @@ export default function ProductsPage() {
   const categories = ["Living Room", "Bedroom", "Dining Room", "Office", "Outdoor"];
   const woodTypes = ["Oak", "Walnut", "Maple", "Cherry", "Pine"];
 
-  const [cartItems, setCartItems] = useState<any[]>([]);
-  // Load cart items from localStorage
-  useEffect(() => {
-    const loadCart = () => {
-      const items = JSON.parse(localStorage.getItem('cart') || '[]');
-      setCartItems(items);
-    };
 
-    // Initial load
-    loadCart();
-
-    // Listen for storage events (from other tabs/windows)
-    window.addEventListener('storage', loadCart);
-
-    // Listen for custom cart update events (same page)
-    window.addEventListener('cartUpdated', loadCart);
-
-    return () => {
-      window.removeEventListener('storage', loadCart);
-      window.removeEventListener('cartUpdated', loadCart);
-    };
-  }, []);
 
   return (
     <div className="min-h-screen  bg-gradient-to-br from-gray-900 via-black to-gray-900">
       <SubHeader />
-      {/* Hero Section */}
+
       <section className="py-8">
-
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
-
-          {/* 
-          <div className="flex items-center justify-between space-x-4">
-            <button
-              onClick={() => router.back()}
-              className={`bg-white/10 border-white/20 text-white flex items-center justify-center rounded-lg hover:text-white px-4 py-2`}
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </button>
-            <div className="flex items-center gap-3.5">
-              <Link href="/cart"
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
-              >
-                <ShoppingCart size={20} />
-                {cartItems.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-yellow-400 text-black text-xs rounded-full w-5 h-5 flex items-center justify-center font-semibold">
-                    {cartItems.length}
-                  </span>
-                )}
-              </Link>
-
-              <button
-                onClick={() => setIsAuthOpen(true)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-              >
-                <User size={20} />
-              </button>
-            </div>
-          </div>
-
-          <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} /> */}
-
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-playfair text-white mb-4">
               Our <span className="text-amber-500">Products</span>
@@ -161,40 +112,37 @@ export default function ProductsPage() {
         </div>
       </section>
 
-
-      {/* Filters and Search */}
       <section className="py-2 bg-gray-900/50 backdrop-blur-sm lg:sticky lg:top-0 z-40 border-b border-white/10">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-row gap-2 items-center justify-between">
-            {/* Search */}
-            <div className="flex items-center gap-4 w-full relative">
+            <div className="flex items-center justify-end lg:justify-between gap-4 w-full relative h-10">
 
-              {/* Mobile Search */}
-              <div className={`relative flex-1 max-w-md w-full transition-all duration-300 ${mobileFilterTypesOpen === 'search' ? 'block' : 'hidden lg:block'
+              <div className={`relative flex-1 w-full transition-all duration-300 group ${mobileFilterTypesOpen === 'search' ? 'block' : 'hidden lg:block'
                 }`}>
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-amber-500 group-focus-within:text-amber-400 transition-colors duration-300 z-10 pointer-events-none">
+                  <Search className="w-5 h-5" />
+                </div>
                 <Input
-                  placeholder="Search products..."
+                  placeholder="Search furniture..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-10 bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                  className="pl-12 pr-12 h-12 bg-gradient-to-r from-gray-900/90 to-black/90 backdrop-blur-md border-2 border-amber-500/30 text-white placeholder:text-gray-400 rounded-xl focus:border-amber-500/50 focus:ring-0 focus:ring-offset-0 focus:outline-none focus-visible:!ring-0 focus-visible:!ring-offset-0 focus-visible:!outline-none transition-all duration-300 hover:border-amber-500/50 hover:shadow-md hover:shadow-amber-500/10"
                 />
                 {searchTerm && (
                   <button
                     onClick={() => setSearchTerm('')}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors flex items-center justify-center"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-amber-500 transition-all duration-300 flex items-center justify-center hover:scale-110 hover:rotate-90 z-10"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-5 h-5" />
                   </button>
                 )}
               </div>
 
-              {/* Mobile Category Filters */}
               <div className={`flex gap-2 px-4 lg:hidden overflow-x-scroll scrollbar-hide [scrollbar-width:none] ${mobileFilterTypesOpen === 'category' ? 'block' : 'hidden'
                 }`}>
                 {categories.map((category, index) => (
                   <Button
-                    ref={el => categoryRefs.current[index] = el}
+                    ref={el => { categoryRefs.current[index] = el; }}
                     key={category}
                     variant={selectedCategories.includes(category) ? 'default' : 'ghost'}
                     onClick={() => toggleCategory(category)}
@@ -208,13 +156,12 @@ export default function ProductsPage() {
                 ))}
               </div>
 
-              {/* Mobile Wood Type Filters */}
               <div className={`lg:hidden overflow-x-auto scrollbar-hide [scrollbar-width:none] ${mobileFilterTypesOpen === 'woodType' ? 'block' : 'hidden'
                 }`}>
                 <div className="flex gap-2 px-4">
                   {woodTypes.map((woodType, index) => (
                     <Button
-                      ref={el => woodTypeRefs.current[index] = el}
+                      ref={el => { woodTypeRefs.current[index] = el; }}
                       key={woodType}
                       variant={selectedWoodTypes.includes(woodType) ? 'default' : 'ghost'}
                       onClick={() => toggleWoodType(woodType)}
@@ -234,18 +181,11 @@ export default function ProductsPage() {
                 className={`bg-white/10 border-white/20 text-white flex items-center justify-center rounded-lg hover:text-white lg:hidden px-4 py-2 ${mobileFilterTypesOpen === 'none' ? 'hidden' : 'flex'
                   }`}
               >
-                {/* <ChevronLeft className="w-4 h-4" /> */}
                 Back
               </button>
 
-
-            </div>
-
-            {/* Controls */}
-            <div className="flex-1 items-center justify-end gap-4 w-full lg:w-1/2 relative">
-              <div className={`flex items-center gap-2 w-full lg:w-auto transition-all duration-300 ${mobileFilterTypesOpen !== 'none' ? 'hidden' : 'flex'
+              <div className={`flex items-center justify-end gap-2 w-full lg:w-auto transition-all duration-300 ${mobileFilterTypesOpen !== 'none' ? 'hidden' : 'flex'
                 }`}>
-                {/* Mobile Buttons */}
 
                 <Button
                   variant="outline"
@@ -293,24 +233,28 @@ export default function ProductsPage() {
                   <RefreshCcw className="w-4 h-4" />
                 </Button>
 
-
-                {/* View Mode Toggle */}
-                <div className="border border-white/20 rounded-lg overflow-hidden hidden lg:flex">
+                <div className="border border-white/20 rounded-lg overflow-hidden hidden lg:flex bg-white/5 backdrop-blur-sm">
                   <Button
                     variant={viewMode === 'grid' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('grid')}
-                    className="rounded-none text-white"
+                    className={`rounded-none transition-all duration-300 ease-in-out cursor-pointer ${viewMode === 'grid'
+                      ? 'bg-amber-500 text-black hover:bg-amber-600 shadow-lg shadow-amber-500/50 scale-105'
+                      : 'text-white/70 hover:text-white hover:bg-white/10 scale-100'
+                      }`}
                   >
-                    <Grid className="w-4 h-4" />
+                    <Grid className={`w-4 h-4 transition-transform duration-300 ${viewMode === 'grid' ? 'scale-110' : 'scale-100'}`} />
                   </Button>
                   <Button
                     variant={viewMode === 'list' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('list')}
-                    className="rounded-none text-white"
+                    className={`rounded-none transition-all duration-300 ease-in-out cursor-pointer ${viewMode === 'list'
+                      ? 'bg-amber-500 text-black hover:bg-amber-600 shadow-lg shadow-amber-500/50 scale-105'
+                      : 'text-white/70 hover:text-white hover:bg-white/10 scale-100'
+                      }`}
                   >
-                    <List className="w-4 h-4" />
+                    <List className={`w-4 h-4 transition-transform duration-300 ${viewMode === 'list' ? 'scale-110' : 'scale-100'}`} />
                   </Button>
                 </div>
               </div>
@@ -321,59 +265,136 @@ export default function ProductsPage() {
 
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar Filters */}
-          <aside className={`lg:w-64 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-            <div className="space-y-6 sticky top-24">
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-amber-500/10">
-                <h3 className="text-lg font-bold text-white mb-4">Categories</h3>
-                <div className="space-y-3">
-                  {categories.map((category) => (
-                    <label key={category} className="flex items-center space-x-3 cursor-pointer group">
-                      <input
-                        type="checkbox"
-                        checked={selectedCategories.includes(category)}
-                        onChange={() => toggleCategory(category)}
-                        className="w-5 h-5 rounded border-amber-500/30 bg-white/5 text-amber-500 focus:ring-amber-500 focus:ring-offset-0"
-                      />
-                      <span className="text-gray-400 group-hover:text-amber-400 transition-colors duration-300">
-                        {category}
+          <aside className="lg:w-64 hidden lg:block">
+            <div className="space-y-4 sticky top-24">
+              <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-md rounded-2xl border border-amber-500/20 shadow-xl shadow-amber-500/5 overflow-hidden">
+                <button
+                  onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+                  className="w-full flex items-center justify-between p-4 hover:bg-amber-500/5 transition-all duration-300 group"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="h-1 w-6 bg-gradient-to-r from-amber-500 to-amber-600 rounded-full"></div>
+                    <h3 className="text-base font-bold text-white">Categories</h3>
+                    {selectedCategories.length > 0 && (
+                      <span className="ml-2 px-2 py-0.5 text-xs font-semibold bg-amber-500 text-black rounded-full">
+                        {selectedCategories.length}
                       </span>
-                    </label>
-                  ))}
+                    )}
+                  </div>
+                  <ChevronDown
+                    className={`w-5 h-5 text-amber-500 transition-transform duration-300 ${isCategoryOpen ? 'rotate-180' : ''
+                      }`}
+                  />
+                </button>
+                <div className={`transition-all duration-300 overflow-hidden ${isCategoryOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  }`}>
+                  <div className="px-3 pb-3 space-y-1">
+                    {categories.map((category) => (
+                      <label
+                        key={category}
+                        className="flex items-center gap-3 p-3 rounded-xl cursor-pointer group hover:bg-amber-500/10 transition-all duration-300 relative overflow-hidden"
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-amber-500/0 via-amber-500/5 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="relative flex items-center justify-center">
+                          <input
+                            type="checkbox"
+                            checked={selectedCategories.includes(category)}
+                            onChange={() => toggleCategory(category)}
+                            className="sr-only peer"
+                          />
+                          <div className={`w-5 h-5 rounded-md border-2 transition-all duration-300 flex items-center justify-center ${selectedCategories.includes(category)
+                            ? 'bg-gradient-to-br from-amber-500 to-amber-600 border-amber-500 shadow-lg shadow-amber-500/50'
+                            : 'border-gray-600 bg-gray-800/50 group-hover:border-amber-500/50'
+                            }`}>
+                            {selectedCategories.includes(category) && (
+                              <svg className="w-3 h-3 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                              </svg>
+                            )}
+                          </div>
+                        </div>
+                        <span className={`text-sm font-medium transition-all duration-300 relative z-10 ${selectedCategories.includes(category)
+                          ? 'text-amber-400'
+                          : 'text-gray-400 group-hover:text-gray-200'
+                          }`}>
+                          {category}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-amber-500/10">
-                <h3 className="text-lg font-bold text-white mb-4">Wood Type</h3>
-                <div className="space-y-3">
-                  {woodTypes.map((woodType) => (
-                    <label key={woodType} className="flex items-center space-x-3 cursor-pointer group">
-                      <input
-                        type="checkbox"
-                        checked={selectedWoodTypes.includes(woodType)}
-                        onChange={() => toggleWoodType(woodType)}
-                        className="w-5 h-5 rounded border-amber-500/30 bg-white/5 text-amber-500 focus:ring-amber-500 focus:ring-offset-0"
-                      />
-                      <span className="text-gray-400 group-hover:text-amber-400 transition-colors duration-300">
-                        {woodType}
+              <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-md rounded-2xl border border-amber-500/20 shadow-xl shadow-amber-500/5 overflow-hidden">
+                <button
+                  onClick={() => setIsWoodTypeOpen(!isWoodTypeOpen)}
+                  className="w-full flex items-center justify-between p-4 hover:bg-amber-500/5 transition-all duration-300 group"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="h-1 w-6 bg-gradient-to-r from-amber-500 to-amber-600 rounded-full"></div>
+                    <h3 className="text-base font-bold text-white">Wood Type</h3>
+                    {selectedWoodTypes.length > 0 && (
+                      <span className="ml-2 px-2 py-0.5 text-xs font-semibold bg-amber-500 text-black rounded-full">
+                        {selectedWoodTypes.length}
                       </span>
-                    </label>
-                  ))}
+                    )}
+                  </div>
+                  <ChevronDown
+                    className={`w-5 h-5 text-amber-500 transition-transform duration-300 ${isWoodTypeOpen ? 'rotate-180' : ''
+                      }`}
+                  />
+                </button>
+                <div className={`transition-all duration-300 overflow-hidden ${isWoodTypeOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  }`}>
+                  <div className="px-3 pb-3 space-y-1">
+                    {woodTypes.map((woodType) => (
+                      <label
+                        key={woodType}
+                        className="flex items-center gap-3 p-3 rounded-xl cursor-pointer group hover:bg-amber-500/10 transition-all duration-300 relative overflow-hidden"
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-amber-500/0 via-amber-500/5 to-amber-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="relative flex items-center justify-center">
+                          <input
+                            type="checkbox"
+                            checked={selectedWoodTypes.includes(woodType)}
+                            onChange={() => toggleWoodType(woodType)}
+                            className="sr-only peer"
+                          />
+                          <div className={`w-5 h-5 rounded-md border-2 transition-all duration-300 flex items-center justify-center ${selectedWoodTypes.includes(woodType)
+                            ? 'bg-gradient-to-br from-amber-500 to-amber-600 border-amber-500 shadow-lg shadow-amber-500/50'
+                            : 'border-gray-600 bg-gray-800/50 group-hover:border-amber-500/50'
+                            }`}>
+                            {selectedWoodTypes.includes(woodType) && (
+                              <svg className="w-3 h-3 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                              </svg>
+                            )}
+                          </div>
+                        </div>
+                        <span className={`text-sm font-medium transition-all duration-300 relative z-10 ${selectedWoodTypes.includes(woodType)
+                          ? 'text-amber-400'
+                          : 'text-gray-400 group-hover:text-gray-200'
+                          }`}>
+                          {woodType}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
 
               {(selectedCategories.length > 0 || selectedWoodTypes.length > 0) && (
                 <Button
                   onClick={clearAllFilters}
-                  className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold"
+                  className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-black font-semibold shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40 transition-all duration-300"
                 >
+                  <RefreshCcw className="w-4 h-4 mr-2" />
                   Clear Filters
                 </Button>
               )}
             </div>
           </aside>
 
-          {/* Products Grid */}
           <main className="flex-1">
             <div className="mb-4 text-gray-400">
               Showing {filteredProducts.length} of {products.length} products
@@ -415,11 +436,24 @@ export default function ProductsPage() {
                     </div>
 
                     <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <Button size="icon" variant="secondary" className="h-8 w-8 glass">
-                        <Heart className="h-4 w-4" />
-                      </Button>
-                      <Link href={`/products/${product.id}`} className="h-8 w-8 glass">
-                        <Eye className="h-4 w-4" />
+                      <button
+                        onClick={() => toggleFavorite(product.id)}
+                        className="h-10 w-10 rounded-lg bg-black/50 backdrop-blur-sm border cursor-pointer border-white/10 flex items-center justify-center hover:bg-black/70 transition-all duration-300"
+                      >
+                        <Heart
+                          className={`w-5 h-5 ${favorites.includes(product.id) ? "fill-amber-500 text-amber-500" : "text-white"
+                            } transition-colors duration-300`}
+                        />
+                      </button>
+                      <Link
+                        href={`/products/${product.id}`}
+                      >
+                        <Button
+                          size="icon"
+                          className="h-10 w-10 rounded-lg bg-black/50 backdrop-blur-sm border cursor-pointer border-white/10 flex items-center justify-center hover:bg-black/70 transition-all duration-300"
+                        >
+                          <Eye className="h-5 w-5 text-white" />
+                        </Button>
                       </Link>
                     </div>
                   </div>
@@ -472,22 +506,17 @@ export default function ProductsPage() {
                       </div>
                     </div>
 
-                    <Button className="w-full gradient-gold text-black font-semibold hover:scale-105 transition-transform duration-200"
+                    <Button className="w-full gradient-gold text-black font-semibold cursor-pointer hover:scale-105 transition-transform duration-200"
                       onClick={() => {
                         if (product.id) {
-                          // Add to cart functionality
-                          const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
-                          const existingItem = cartItems.find((item: any) => item.id === product.id);
-
+                          const cartItems: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+                          const existingItem = cartItems.find((item: CartItem) => item.id === product.id);
                           if (existingItem) {
                             existingItem.quantity += 1;
                           } else {
                             cartItems.push({ ...product, quantity: 1 });
                           }
-
                           localStorage.setItem('cart', JSON.stringify(cartItems));
-
-                          // Dispatch custom event to notify other components
                           window.dispatchEvent(new Event('cartUpdated'));
                         }
                       }}>
@@ -510,8 +539,8 @@ export default function ProductsPage() {
             )}
           </main>
         </div>
-      </div>
+      </div >
       <Footer />
-    </div>
+    </div >
   );
 }

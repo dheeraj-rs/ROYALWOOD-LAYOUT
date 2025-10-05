@@ -1,14 +1,16 @@
 'use client';
 
 import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const About = () => {
   return (
     <section id="about" className="py-20 bg-gradient-to-b from-gray-900 via-black to-gray-900">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Content */}
           <div className="fade-in-up">
+
             <h2 className="font-playfair text-4xl md:text-5xl font-bold mb-6">
               Crafting <span className="gold-text-gradient">Excellence</span>
               <br />Since 1998
@@ -41,19 +43,20 @@ const About = () => {
               </div>
             </div>
 
-            <button className="gold-gradient text-black font-semibold px-8 py-4 rounded-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2">
+            <Link href="/about" className="w-max gold-gradient text-black font-semibold px-8 py-4 rounded-lg hover:scale-105 transition-all duration-300 flex items-center space-x-2">
               <span>Our Story</span>
               <ArrowRight size={20} />
-            </button>
+            </Link>
           </div>
 
-          {/* Image */}
-          <div className="relative fade-in-up">
+          <div className="relative fade-in-up px-4">
             <div className="glass-morphism rounded-2xl p-6 hover-lift">
-              <img
+              <Image
                 src="https://images.pexels.com/photos/1571470/pexels-photo-1571470.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="Master Craftsman"
                 className="w-full h-96 object-cover rounded-lg"
+                width={800}
+                height={600}
               />
 
               <div className="absolute -top-6 -right-6 glass-morphism-dark p-6 rounded-xl">

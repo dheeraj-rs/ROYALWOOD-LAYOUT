@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
 
 :root {
   --gold: #FFD700;
@@ -17,13 +19,30 @@
 
   body {
     @apply bg-black text-white;
-    font-family: Inter, system-ui, -apple-system, sans-serif;
     background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #0A0A0A 100%);
     min-height: 100vh;
   }
 
   html {
     scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .font-inter {
+    font-family: var(--font-inter);
+  }
+
+  .font-playfair {
+    font-family: var(--font-playfair);
+  }
+
+  .text-shadow-gold {
+    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+  }
+
+  .bg-radial-gradient {
+    background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
   }
 }
 
@@ -118,15 +137,7 @@
   }
 }
 
-@layer utilities {
-  .text-shadow-gold {
-    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
-  }
 
-  .bg-radial-gradient {
-    background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
-  }
-}
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {

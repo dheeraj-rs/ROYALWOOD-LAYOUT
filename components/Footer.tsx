@@ -10,7 +10,6 @@ const Footer = () => {
     <footer className="bg-gradient-to-t from-black to-gray-900 pt-20 pb-8">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {/* Brand */}
           <div>
             <div className="flex items-center space-x-2 mb-6">
               <Link href="/" className="flex items-center space-x-2 group">
@@ -34,31 +33,59 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="font-playfair text-xl font-semibold mb-6">Quick Links</h3>
             <ul className="space-y-4">
-              {['Home', 'Products', 'About Us', 'Services', 'Contact'].map((link) => (
-                <li key={link}>
-                  <a
-                    href={`#${link.toLowerCase().replace(' ', '')}`}
-                    className="text-gray-400 hover:text-yellow-400 transition-colors"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/"
+                  className="text-gray-400 hover:text-yellow-400 transition-colors"
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/gallery"
+                  className="text-gray-400 hover:text-yellow-400 transition-colors"
+                >
+                  Gallery
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products"
+                  className="text-gray-400 hover:text-yellow-400 transition-colors"
+                >
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="text-gray-400 hover:text-yellow-400 transition-colors"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-gray-400 hover:text-yellow-400 transition-colors"
+                >
+                  Contact
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Categories */}
           <div>
             <h3 className="font-playfair text-xl font-semibold mb-6">Categories</h3>
             <ul className="space-y-4">
               {['Living Room', 'Bedroom', 'Dining Room', 'Office', 'Lighting', 'Accessories'].map((category) => (
                 <li key={category}>
                   <a
-                    href="#products"
+                    href={`/products/${category.toLowerCase().replace(' ', '')}`}
                     className="text-gray-400 hover:text-yellow-400 transition-colors"
                   >
                     {category}
@@ -68,7 +95,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact Info */}
           <div>
             <h3 className="font-playfair text-xl font-semibold mb-6">Contact Info</h3>
             <div className="space-y-4">
@@ -89,7 +115,7 @@ const Footer = () => {
                 <Mail size={20} className="text-yellow-400" />
                 <span className="text-gray-400">hello@royalwood.com</span>
               </div>
-              {/* Business Hours */}
+
               <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
                 <h5 className="text-white font-medium mb-2">Business Hours</h5>
                 <div className="text-white/70 text-sm space-y-1">
@@ -107,7 +133,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">

@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
-import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Info, Phone, MapPin, Package } from 'lucide-react';
 import SubHeader from '@/components/SubHeader';
+import Image from 'next/image';
 
 interface CartItem {
   id: number;
@@ -76,9 +77,43 @@ const CartPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
       <SubHeader />
-
-      <div className="pt-20 pb-16">
+      <div className="pt-20 pb-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-lg p-3.5 backdrop-blur-sm">
+            <div className="flex items-start gap-3">
+              <Info className="w-5 h-5 text-amber-400 flex-shrink-0" />
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-amber-400 mb-1">Shop Without Login - Easy & Convenient!</h3>
+                <p className="text-gray-300 text-xs mb-2">
+                  You can purchase items without creating an account. Simply provide your shipping address, email, and phone number during checkout. Your order details will be sent to you immediately.
+                </p>
+                <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-gray-400">
+                  <div className="flex items-center gap-1.5">
+                    <Phone className="w-3 h-3 text-amber-400" />
+                    <span><strong className="text-white">Quick Response:</strong> We&apos;ll contact you within 24 hours</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <MapPin className="w-3 h-3 text-amber-400" />
+                    <span><strong className="text-white">Visit Our Showroom:</strong> See products in person anytime</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-end mb-6">
+            <Link
+              href="/orders"
+              className="inline-flex items-center px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-amber-400 hover:bg-white/10 hover:border-amber-400/50 transition-all duration-300"
+            >
+              <Package size={18} className="mr-2" />
+              View Orders
+            </Link>
+          </div>
 
           {cartItems.length === 0 ? (
             <div className="text-center py-16">
@@ -95,15 +130,16 @@ const CartPage = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Cart Items */}
               <div className="lg:col-span-2 space-y-4">
                 {cartItems.map((item) => (
                   <div key={item.id} className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <img
+                      <Image
                         src={item.image}
                         alt={item.name}
                         className="w-full sm:w-24 h-48 sm:h-24 object-cover rounded-lg"
+                        width={800}
+                        height={600}
                       />
 
                       <div className="flex-1">
@@ -168,10 +204,8 @@ const CartPage = () => {
                 </div>
               </div>
 
-              {/* Order Summary */}
               <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 h-fit">
                 <h2 className="text-2xl font-bold text-white mb-6">Order Summary</h2>
-
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between">
                     <span className="text-gray-300">Subtotal</span>
@@ -201,6 +235,14 @@ const CartPage = () => {
                 >
                   Proceed to Checkout
                   <ArrowRight size={20} className="ml-2" />
+                </Link>
+
+                <Link
+                  href="/orders"
+                  className="w-full flex items-center justify-center px-6 py-3 mt-3 bg-white/5 border border-white/10 rounded-lg text-amber-400 hover:bg-white/10 hover:border-amber-400/50 transition-all duration-300"
+                >
+                  <Package size={18} className="mr-2" />
+                  Track Your Orders
                 </Link>
 
                 <div className="mt-4 text-center">

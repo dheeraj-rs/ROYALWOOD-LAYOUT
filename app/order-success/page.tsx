@@ -19,7 +19,6 @@ const OrderSuccessPage = () => {
 
       <div className="pt-20 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Success Message */}
           <div className="text-center mb-12">
             <CheckCircle className="mx-auto mb-6 text-green-500" size={80} />
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -34,7 +33,6 @@ const OrderSuccessPage = () => {
             </div>
           </div>
 
-          {/* Order Timeline */}
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 mb-8">
             <h2 className="text-2xl font-bold text-white mb-8 text-center">What Happens Next?</h2>
 
@@ -74,7 +72,6 @@ const OrderSuccessPage = () => {
             </div>
           </div>
 
-          {/* Order Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
               <h3 className="text-xl font-bold text-white mb-4">Delivery Information</h3>
@@ -107,7 +104,6 @@ const OrderSuccessPage = () => {
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/orders"
@@ -125,7 +121,6 @@ const OrderSuccessPage = () => {
             </Link>
           </div>
 
-          {/* Thank You Message */}
           <div className="text-center mt-12 p-8 bg-gradient-to-r from-amber-600/10 to-orange-700/10 rounded-2xl border border-amber-400/20">
             <h3 className="text-2xl font-bold text-white mb-4">Thank You for Choosing Royalwood</h3>
             <p className="text-gray-300 leading-relaxed max-w-2xl mx-auto">

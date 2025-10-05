@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { CreditCard, Lock, MapPin, ArrowLeft } from 'lucide-react';
 import SubHeader from '@/components/SubHeader';
+import Image from 'next/image';
 
 interface CartItem {
   id: number;
@@ -20,7 +21,6 @@ const CheckoutPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
-    // Shipping Information
     firstName: '',
     lastName: '',
     email: '',
@@ -30,17 +30,14 @@ const CheckoutPage = () => {
     state: '',
     zipCode: '',
     country: 'United States',
-
-    // Payment Information
     cardNumber: '',
     expiryDate: '',
     cvv: '',
     cardName: '',
-
-    // Additional Options
     deliveryInstructions: '',
     newsletter: false
   });
+  const [expiryError, setExpiryError] = useState('');
 
   useEffect(() => {
     const items = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -56,13 +53,107 @@ const CheckoutPage = () => {
     }));
   };
 
+  const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\s/g, ''); // Remove spaces
+    value = value.replace(/\D/g, ''); // Remove non-digits
+
+    // Limit to 16 digits
+    if (value.length > 16) {
+      value = value.slice(0, 16);
+    }
+
+    // Add space every 4 digits
+    const formatted = value.match(/.{1,4}/g)?.join(' ') || value;
+
+    setFormData(prev => ({
+      ...prev,
+      cardNumber: formatted
+    }));
+  };
+
+  const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+
+    // Handle backspace - allow deletion of the slash
+    if (input.length < formData.expiryDate.length) {
+      setFormData(prev => ({
+        ...prev,
+        expiryDate: input.replace(/\D/g, '')
+      }));
+      setExpiryError('');
+      return;
+    }
+
+    let value = input.replace(/\D/g, ''); // Remove non-digits
+
+    // Limit to 4 digits (MMYY)
+    if (value.length > 4) {
+      value = value.slice(0, 4);
+    }
+
+    // Validate month as user types
+    if (value.length >= 1) {
+      const firstDigit = parseInt(value[0]);
+      if (firstDigit > 1) {
+        setExpiryError('Month must be between 01-12');
+        return;
+      }
+    }
+
+    if (value.length >= 2) {
+      const month = parseInt(value.slice(0, 2));
+      if (month === 0 || month > 12) {
+        setExpiryError('Month must be between 01-12');
+        return;
+      }
+    }
+
+    // Validate year if complete
+    if (value.length === 4) {
+      const month = parseInt(value.slice(0, 2));
+      const year = parseInt(value.slice(2, 4));
+      const currentYear = new Date().getFullYear() % 100;
+      const currentMonth = new Date().getMonth() + 1;
+
+      if (year < currentYear || (year === currentYear && month < currentMonth)) {
+        setExpiryError('Card has expired');
+      } else {
+        setExpiryError('');
+      }
+    } else {
+      setExpiryError('');
+    }
+
+    // Auto-format with slash
+    let formatted = value;
+    if (value.length >= 2) {
+      formatted = value.slice(0, 2) + '/' + value.slice(2);
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      expiryDate: formatted
+    }));
+  };
+
+  const handleCVVChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+
+    // Limit to 3 digits
+    if (value.length > 3) {
+      value = value.slice(0, 3);
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      cvv: value
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
-
-    // Simulate payment processing
     setTimeout(() => {
-      // Clear cart and redirect to success page
       localStorage.removeItem('cart');
       window.location.href = '/order-success';
     }, 3000);
@@ -106,28 +197,24 @@ const CheckoutPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
       <SubHeader />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="py-8">
-          <Link
-            href="/cart"
-            className="inline-flex items-center text-amber-400 hover:text-amber-300 mb-4 transition-colors"
-          >
-            <ArrowLeft size={20} className="mr-2" />
-            Back to Cart
-          </Link>
-          <h1 className="text-4xl font-bold text-white mb-4">Checkout</h1>
-          <div className="flex items-center space-x-4 text-sm">
-            <span className="text-amber-400">Cart</span>
-            <span className="text-gray-400">→</span>
-            <span className="text-amber-400 font-semibold">Checkout</span>
-            <span className="text-gray-400">→</span>
-            <span className="text-gray-400">Confirmation</span>
-          </div>
+        <Link
+          href="/cart"
+          className="inline-flex items-center text-amber-400 hover:text-amber-300 mb-4 transition-colors"
+        >
+          <ArrowLeft size={20} className="mr-2" />
+          Back to Cart
+        </Link>
+        <h1 className="text-4xl font-bold text-white mb-4">Checkout</h1>
+        <div className="flex items-center space-x-4 text-sm">
+          <Link href='/cart' className="text-amber-400">Cart</Link>
+          <span className="text-gray-400">→</span>
+          <Link href='/checkout' className="text-amber-400 font-semibold">Checkout</Link>
+          <span className="text-gray-400">→</span>
+          <span className="text-gray-400">Order Confirmed</span>
         </div>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Checkout Form */}
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8 py-8">
           <div className="lg:col-span-2 space-y-8">
-            {/* Shipping Information */}
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
               <div className="flex items-center mb-6">
                 <MapPin className="text-amber-400 mr-3" size={24} />
@@ -250,7 +337,6 @@ const CheckoutPage = () => {
               </div>
             </div>
 
-            {/* Payment Information */}
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
               <div className="flex items-center mb-6">
                 <CreditCard className="text-amber-400 mr-3" size={24} />
@@ -265,9 +351,11 @@ const CheckoutPage = () => {
                     type="text"
                     name="cardNumber"
                     value={formData.cardNumber}
-                    onChange={handleInputChange}
+                    onChange={handleCardNumberChange}
                     required
                     placeholder="1234 5678 9012 3456"
+                    maxLength={19}
+                    pattern="[0-9\s]{19}"
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-amber-400/50"
                   />
                 </div>
@@ -278,11 +366,18 @@ const CheckoutPage = () => {
                       type="text"
                       name="expiryDate"
                       value={formData.expiryDate}
-                      onChange={handleInputChange}
+                      onChange={handleExpiryDateChange}
                       required
                       placeholder="MM/YY"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-amber-400/50"
+                      maxLength={5}
+                      className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white placeholder-gray-400 focus:outline-none ${expiryError
+                          ? 'border-red-500 focus:border-red-500'
+                          : 'border-white/10 focus:border-amber-400/50'
+                        }`}
                     />
+                    {expiryError && (
+                      <p className="mt-1 text-xs text-red-400">{expiryError}</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">CVV *</label>
@@ -290,9 +385,11 @@ const CheckoutPage = () => {
                       type="text"
                       name="cvv"
                       value={formData.cvv}
-                      onChange={handleInputChange}
+                      onChange={handleCVVChange}
                       required
                       placeholder="123"
+                      maxLength={3}
+                      pattern="[0-9]{3}"
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-amber-400/50"
                     />
                   </div>
@@ -319,19 +416,18 @@ const CheckoutPage = () => {
             </div>
           </div>
 
-          {/* Order Summary */}
           <div className="space-y-6">
-            {/* Items Summary */}
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
               <h2 className="text-2xl font-bold text-white mb-6">Order Summary</h2>
-
               <div className="space-y-4 mb-6">
                 {cartItems.map((item) => (
                   <div key={item.id} className="flex items-center space-x-4">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.name}
                       className="w-16 h-16 object-cover rounded-lg"
+                      width={800}
+                      height={600}
                     />
                     <div className="flex-1">
                       <h3 className="text-white font-medium text-sm">{item.name}</h3>
@@ -364,11 +460,10 @@ const CheckoutPage = () => {
               </div>
             </div>
 
-            {/* Place Order Button */}
             <button
               type="submit"
               disabled={isProcessing}
-              className="w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-orange-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center px-6 py-4 cursor-pointer bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-orange-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isProcessing ? (
                 <>

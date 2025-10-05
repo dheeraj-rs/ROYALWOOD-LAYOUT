@@ -8,7 +8,6 @@ import SubHeader from '@/components/SubHeader';
 const OrdersPage = () => {
   const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
 
-  // Mock order data
   const orders = [
     {
       id: 'RW123456',
@@ -139,7 +138,6 @@ const OrdersPage = () => {
                     </div>
                   </div>
 
-                  {/* Order Items */}
                   <div className="space-y-3 mb-6">
                     {order.items.map((item, index) => (
                       <div key={index} className="flex items-center justify-between py-2 border-b border-white/10 last:border-b-0">
@@ -152,7 +150,6 @@ const OrdersPage = () => {
                     ))}
                   </div>
 
-                  {/* Order Details */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                     {order.tracking && (
                       <div>
@@ -187,7 +184,6 @@ const OrdersPage = () => {
                     </div>
                   </div>
 
-                  {/* Action Buttons */}
                   <div className="flex flex-wrap gap-3">
                     <button
                       onClick={() => setSelectedOrder(selectedOrder === order.id ? null : order.id)}
@@ -198,7 +194,8 @@ const OrdersPage = () => {
                     </button>
 
                     {order.tracking && (
-                      <button className="inline-flex items-center px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors">
+                      <button onClick={() => setSelectedOrder(selectedOrder === order.id ? null : order.id)}
+                        className="inline-flex items-center px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors">
                         <Truck size={16} className="mr-2" />
                         Track Package
                       </button>
@@ -212,7 +209,6 @@ const OrdersPage = () => {
                     )}
                   </div>
 
-                  {/* Expanded Details */}
                   {selectedOrder === order.id && (
                     <div className="mt-6 pt-6 border-t border-white/10">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
