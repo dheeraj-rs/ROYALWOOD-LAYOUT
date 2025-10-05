@@ -112,7 +112,7 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section className="py-2 bg-gray-900/50 backdrop-blur-sm lg:sticky lg:top-0 z-40 border-b border-white/10">
+      <section className="py-2 backdrop-blur-sm lg:sticky lg:top-0 z-40 border-b border-white/10 lg:border-0">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-row gap-2 items-center justify-between">
             <div className="flex items-center justify-end lg:justify-between gap-4 w-full relative h-10">

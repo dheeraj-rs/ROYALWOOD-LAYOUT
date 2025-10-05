@@ -52,7 +52,7 @@ const SubHeader = () => {
 
             <nav className="hidden md:flex items-center space-x-8">
               <Link href="/" className={`hover:text-yellow-400 transition-colors ${pathname === '/' ? 'text-yellow-400' : ''}`}>Home</Link>
-              <Link href="/gallery" className={`hover:text-yellow-400 transition-colors ${pathname === '/gallery' ? 'text-yellow-400' : ''}`}>Gallery</Link>
+              <Link href="/works" className={`hover:text-yellow-400 transition-colors ${pathname === '/works' ? 'text-yellow-400' : ''}`}>Works</Link>
               <Link href="/products" className={`hover:text-yellow-400 transition-colors ${isProductsActive ? 'text-yellow-400' : ''}`}>Products</Link>
               <Link href="/about" className={`hover:text-yellow-400 transition-colors ${pathname === '/about' ? 'text-yellow-400' : ''}`}>About</Link>
               <Link href="/contact" className={`hover:text-yellow-400 transition-colors ${pathname === '/contact' ? 'text-yellow-400' : ''}`}>Contact</Link>
@@ -90,7 +90,7 @@ const SubHeader = () => {
           <div className="md:hidden mt-4 glass-morphism-dark mx-4 rounded-lg p-6">
             <nav className="flex flex-col space-y-4">
               <Link href="/" className={`hover:text-yellow-400 transition-colors ${pathname === '/' ? 'text-yellow-400' : ''}`}>Home</Link>
-              <Link href="/gallery" className={`hover:text-yellow-400 transition-colors ${pathname === '/gallery' ? 'text-yellow-400' : ''}`}>Gallery</Link>
+              <Link href="/works" className={`hover:text-yellow-400 transition-colors ${pathname === '/works' ? 'text-yellow-400' : ''}`}>Works</Link>
               <Link href="/products" className={`hover:text-yellow-400 transition-colors ${isProductsActive ? 'text-yellow-400' : ''}`}>Products</Link>
               <Link href="/about" className={`hover:text-yellow-400 transition-colors ${pathname === '/about' ? 'text-yellow-400' : ''}`}>About</Link>
               <Link href="/contact" className={`hover:text-yellow-400 transition-colors ${pathname === '/contact' ? 'text-yellow-400' : ''}`}>Contact</Link>

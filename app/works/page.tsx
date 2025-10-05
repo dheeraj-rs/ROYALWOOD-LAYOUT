@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import { Star, Quote } from 'lucide-react';
 import Link from 'next/link';
 import SubHeader from '@/components/SubHeader';
+import Image from 'next/image';
 
 const PortfolioPage = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -103,37 +104,22 @@ const PortfolioPage = () => {
     : projects.filter(project => project.category === activeCategory);
 
   return (
-    <div className="min-h-screen  bg-gradient-to-br from-gray-900 via-black to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
       <SubHeader />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1920)',
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-20">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
-              Our
-              <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-                Portfolio
-              </span>
+      <section className="pt-24 pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
+              My Previous <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">Works</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 leading-relaxed">
-              Discover the transformative power of exceptional furniture through our showcase
-              of completed projects and satisfied customer stories.
+            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
+              Explore my completed projects with photos, details, and prices. Filter by category and click any project to see the full story of quality craftsmanship.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Filter Categories */}
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
@@ -154,17 +140,19 @@ const PortfolioPage = () => {
       </section>
 
       {/* Portfolio Grid */}
-      <section className="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project) => (
-              <Link key={project.id} href={`/portfolio/${project.id}`} className="group cursor-pointer">
+              <Link key={project.id} href={`/works/${project.id}`} className="group cursor-pointer">
                 <div className="bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:bg-white/10 hover:border-amber-400/30 transition-all duration-300">
                   <div className="relative overflow-hidden">
-                    <img
+                    <Image
                       src={project.image}
                       alt={project.title}
                       className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                      width={800}
+                      height={600}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
@@ -201,10 +189,12 @@ const PortfolioPage = () => {
               <div key={testimonial.id} className="group">
                 <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:bg-white/10 hover:border-amber-400/30 transition-all duration-300 h-full">
                   <div className="flex items-center mb-6">
-                    <img
+                    <Image
                       src={testimonial.image}
                       alt={testimonial.name}
                       className="w-12 h-12 rounded-full object-cover mr-4"
+                      width={800}
+                      height={600}
                     />
                     <div>
                       <h4 className="text-white font-semibold">{testimonial.name}</h4>

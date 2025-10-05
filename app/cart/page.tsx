@@ -62,8 +62,8 @@ const CartPage = () => {
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.08; // 8% tax
-  const shipping = subtotal > 2000 ? 0 : 199; // Free shipping over $2000
+  const tax = subtotal * 0.08;
+  const shipping = subtotal > 2000 ? 0 : 199;
   const total = subtotal + tax + shipping;
 
   if (isLoading) {
@@ -77,7 +77,7 @@ const CartPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
       <SubHeader />
-      <div className="pt-20 pb-3">
+      <div className="pt-6 lg:pt-20 pb-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-lg p-3.5 backdrop-blur-sm">
             <div className="flex items-start gap-3">
@@ -105,28 +105,28 @@ const CartPage = () => {
 
       <div className="pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-end mb-6">
-            <Link
-              href="/orders"
-              className="inline-flex items-center px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-amber-400 hover:bg-white/10 hover:border-amber-400/50 transition-all duration-300"
-            >
-              <Package size={18} className="mr-2" />
-              View Orders
-            </Link>
-          </div>
-
           {cartItems.length === 0 ? (
-            <div className="text-center py-16">
-              <ShoppingBag className="mx-auto mb-4 text-gray-400" size={64} />
-              <h2 className="text-2xl font-semibold text-white mb-4">Your cart is empty</h2>
-              <p className="text-gray-400 mb-8">Discover our beautiful furniture collection</p>
-              <Link
-                href="/products"
-                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-orange-700 transition-all duration-300"
-              >
-                Browse Catalog
-                <ArrowRight size={20} className="ml-2" />
-              </Link>
+            <div className='py-6'>
+              <div className="text-center py-2">
+                <ShoppingBag className="mx-auto mb-4 text-gray-400" size={64} />
+                <h2 className="text-2xl font-semibold text-white">Your cart is empty</h2>
+                <p className="text-gray-400">Discover our beautiful furniture collection</p>
+              </div>
+              <div className="flex flex-col lg:flex-row items-center justify-center gap-4 mb-8">
+                <Link
+                  href="/products"
+                  className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-lg hover:from-amber-600 hover:to-orange-700 transition-all duration-300"
+                >
+                  Browse Catalog
+                  <ArrowRight size={20} className="ml-2" />
+                </Link>
+                <Link
+                  href="/orders"
+                  className="inline-flex items-center px-8 py-4 bg-white/5 border border-white/10 text-amber-400 font-semibold rounded-lg hover:bg-white/10 hover:border-amber-400/50 transition-all duration-300"
+                >
+                  View Orders
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -242,7 +242,7 @@ const CartPage = () => {
                   className="w-full flex items-center justify-center px-6 py-3 mt-3 bg-white/5 border border-white/10 rounded-lg text-amber-400 hover:bg-white/10 hover:border-amber-400/50 transition-all duration-300"
                 >
                   <Package size={18} className="mr-2" />
-                  Track Your Orders
+                  Track Your previes Orders
                 </Link>
 
                 <div className="mt-4 text-center">
@@ -257,7 +257,7 @@ const CartPage = () => {
       </div>
 
       <Footer />
-    </div>
+    </div >
   );
 };
 
